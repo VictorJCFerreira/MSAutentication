@@ -31,5 +31,9 @@ usersRouter.put("/users/:uuid",(req: Request<{ uuid: String }>, res: Response, n
     res.status(StatusCodes.OK).send( modifiedUser )
 } )
 
+usersRouter.delete("/users/:uuid",(req: Request<{ uuid: String }>, res: Response, next: NextFunction)=>{
+    res.sendStatus(StatusCodes.OK)
+})
+
 export default usersRouter;
 
