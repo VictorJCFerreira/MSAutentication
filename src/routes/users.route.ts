@@ -16,10 +16,11 @@ usersRouter.get("/users/:uuid", async (req: Request<{ uuid: string }>, res: Resp
     res.status(StatusCodes.OK).send(user);
 })
 
-usersRouter.post("/users",(req: Request<{ uuid: String }>, res: Response, next: NextFunction)=>{
+usersRouter.post("/users", async (req: Request<{ uuid: String }>, res: Response, next: NextFunction)=>{
     const newUser = req.body
+    const uuid = await userRepository.CreateUser(newUser)
 
-    res.status(StatusCodes.CREATED).send(newUser)
+    res.status(StatusCodes.CREATED).send(uuid)
 })
 
 usersRouter.put("/users/:uuid",(req: Request<{ uuid: String }>, res: Response, next: NextFunction)=>{
