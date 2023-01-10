@@ -16,23 +16,27 @@ usersRouter.get("/users/:uuid", async (req: Request<{ uuid: string }>, res: Resp
     res.status(StatusCodes.OK).send(user);
 })
 
-usersRouter.post("/users", async (req: Request<{ uuid: String }>, res: Response, next: NextFunction)=>{
+usersRouter.post("/users", async (req: Request<{ uuid: string }>, res: Response, next: NextFunction)=>{
     const newUser = req.body
     const uuid = await userRepository.CreateUser(newUser)
 
     res.status(StatusCodes.CREATED).send(uuid)
 })
 
-usersRouter.put("/users/:uuid",(req: Request<{ uuid: String }>, res: Response, next: NextFunction)=>{
+usersRouter.put("/users/:uuid",async (req: Request<{ uuid: string }>, res: Response, next: NextFunction)=>{
     const uuid = req.params.uuid;
     const modifiedUser = req.body
 
     modifiedUser.uuid = uuid
 
-    res.status(StatusCodes.OK).send( modifiedUser )
+    await userRepository.updateUser(modifiedUser)
+
+    res.status(StatusCodes.OK).send( )
 } )
 
-usersRouter.delete("/users/:uuid",(req: Request<{ uuid: String }>, res: Response, next: NextFunction)=>{
+usersRouter.delete("/users/:uuid", async(req: Request<{ uuid: string }>, res: Response, next: NextFunction)=>{
+    const uuid = req.params.uuid;
+    await userRepository.removeUser(uuid)
     res.sendStatus(StatusCodes.OK)
 })
 
