@@ -10,10 +10,10 @@ usersRouter.get("/users", async (req: Request, res: Response, next: NextFunction
 
 })
 
-usersRouter.get("/users/:uuid",(req: Request<{ uuid: String }>, res: Response, next: NextFunction)=>{
-    const uuid = req.params.uuid
-    //BancoDeDados.getUserByUuid(uuid)
-    res.status(StatusCodes.OK).send({uuid})
+usersRouter.get("/users/:uuid", async (req: Request<{ uuid: string }>, res: Response, next: NextFunction)=>{
+    const uuid = req.params.uuid;
+    const user = await userRepository.findByID(uuid);
+    res.status(StatusCodes.OK).send(user);
 })
 
 usersRouter.post("/users",(req: Request<{ uuid: String }>, res: Response, next: NextFunction)=>{
