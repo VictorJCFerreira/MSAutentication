@@ -1,9 +1,17 @@
-import User from "../models/user.model";
+import db from '../db';
+import User from '../models/user.model';
+
 
 class userRepository {
 
-    findAllUser(): User[] {
-        return[];
+    async findAllUser(): Promise<User[]> {
+        const query = `
+            SELECT username, uuid 
+            FROM application_user
+        `;
+        const result = await db.query<User>(query);
+        const rows = result.rows;
+        return rows || [];
     };
 
 }
